@@ -20,6 +20,10 @@ import DeliveryF from '../component/factory/drawer/delivery'
 import PreviousD from './delivery/drawer/PreviousD'
 import UserD from '../component/delivery/drawer/UserD'
 import DeliveryD from '../component/delivery/drawer/NewDeliveries'
+import CustProducts from './customer/drawer/CustProducts'
+import CustHistory from './customer/drawer/CustHistory'
+import CustCart from './customer/drawer/CustCart'
+import CustProfile from './customer/drawer/CustProfile'
 
 const Stack = createNativeStackNavigator()
 
@@ -187,6 +191,40 @@ options={{
 }}}
 />
 
+<Stack.Screen name="custProduct" component={CustProducts} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+
+<Stack.Screen name="custHistory" component={CustHistory} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="custCart" component={CustCart} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+
+
+<Stack.Screen name="custProfile" component={CustProfile} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
 
 
 </Stack.Group>

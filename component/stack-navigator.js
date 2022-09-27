@@ -268,7 +268,7 @@ options={{
 
 <Stack.Screen name="boothUpdate" component={BoothUpdateDeliveryBoy} 
 options={{
-    title: "Customer",
+    title: "Booth",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -276,7 +276,7 @@ options={{
 
 <Stack.Screen name="boothOrders" component={BoothNewOrders} 
 options={{
-    title: "Customer",
+    title: "Booth",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}

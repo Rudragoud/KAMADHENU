@@ -3,7 +3,7 @@ import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from
 import { useNavigation} from '@react-navigation/native'
 import { DataTable } from 'react-native-paper';
 
-const PreviousD = () => {
+const BoothDeliveries = () => {
 
   const navigation = useNavigation()
 
@@ -136,14 +136,14 @@ const PreviousD = () => {
   return (
     <View>
       <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("DDashboard")}>
+       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("BDashboard")}>
        <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
        </TouchableOpacity>
       </View>
 
       <View>
-        <Text style={styles.heading}> Delivered Data</Text>
-      </View>
+      <Text style={styles.heading}>All deliveries</Text>
+    </View>
 
       <ScrollView>
       <DataTable >
@@ -190,18 +190,18 @@ const styles=StyleSheet.create({
   },
   tableHeader:{
     backgroundColor:'yellow'
-  }
-,
-heading:{
-  textAlign:'center',
-  fontSize:25,
-  fontWeight:'bold',
-  marginBottom:20
+  },
+  heading:{
+    textAlign:'center',
+    fontSize:25,
+    fontWeight:'bold',
+    marginBottom:20
+  
+  },
 
-},
   
 
 })
 
 
-export default PreviousD
+export default BoothDeliveries

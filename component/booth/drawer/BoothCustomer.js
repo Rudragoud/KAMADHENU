@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button } fr
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-const CustProfile = () => {
+const BoothCustomer = () => {
 
   const handleUpdate = () => {
-    console.log("Updated")
+    console.log("saved")
   }
 
   const [custName, setCustName] = useState('')
@@ -20,13 +20,13 @@ const CustProfile = () => {
 
 
       <View style={styles.innerContainer}>
-        <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("CDashboard")}>
+        <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("BDashboard")}>
           <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
         </TouchableOpacity>
       </View>
 
       <View >
-        <Text style={styles.heading}> Update Profile</Text>
+        <Text style={styles.heading}> Add a customer</Text>
       </View>
 
       <View style={styles.containerImgMain}>
@@ -40,7 +40,7 @@ const CustProfile = () => {
         <TextInput placeholder='Address' value={addr} onChangeText={setAddr} style={styles.input} />
         <TextInput placeholder='Pin code' value={pinCode} onChangeText={setPinCode} style={styles.input} />
         <TouchableOpacity>
-          <Button title="Update" onPress={handleUpdate} />
+          <Button title="Save" onPress={handleUpdate} />
         </TouchableOpacity>
 
       </View>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default CustProfile
+export default BoothCustomer

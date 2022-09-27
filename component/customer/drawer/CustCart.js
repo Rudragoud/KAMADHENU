@@ -22,6 +22,10 @@ const CustCart = () => {
     
   ]
 
+  const handleOrder=()=>{
+    console.log("Order succesfull")
+  }
+
   return (
     <View style={styles.container}>
 
@@ -67,7 +71,7 @@ const CustCart = () => {
 </View>
 <View>
 
-  <Button title="checkout"  />
+  <Button title="Order" onPress={handleOrder} />
 </View>
 
     </View>

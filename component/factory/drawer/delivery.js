@@ -1,4 +1,4 @@
-import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
+import { View, Text , Image ,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
 import React from 'react'
 import { useNavigation} from '@react-navigation/native'
 import { DataTable } from 'react-native-paper';
@@ -156,6 +156,10 @@ const deliveredData = [
        </TouchableOpacity>
       </View>
 
+      <View>
+        <Text style={styles.heading}>Delivered Data</Text>
+      </View>
+
       <ScrollView>
       <DataTable >
       <DataTable.Header style={styles.tableHeader}>
@@ -167,13 +171,7 @@ const deliveredData = [
         <DataTable.Title>Date</DataTable.Title>
       </DataTable.Header>
      
-      {/* <DataTable.Row>
-        <DataTable.Cell>001</DataTable.Cell>
-        <DataTable.Cell>Radhika</DataTable.Cell>
-        <DataTable.Cell>9099990998</DataTable.Cell>
-        <DataTable.Cell>Kengeri</DataTable.Cell>
-        <DataTable.Cell>23</DataTable.Cell>
-      </DataTable.Row> */}
+   
 
       {deliveredData.map((booth)=>{
         return  <DataTable.Row key={booth.id}>
@@ -208,7 +206,14 @@ const styles=StyleSheet.create({
     },
     tableHeader:{
       backgroundColor:'yellow'
-    }
+    },
+    heading:{
+      textAlign:'center',
+      fontSize:25,
+      fontWeight:'bold',
+      marginBottom:20
+    
+    },
   
     
 

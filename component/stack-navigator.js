@@ -25,6 +25,14 @@ import CustHistory from './customer/drawer/CustHistory'
 import CustCart from './customer/drawer/CustCart'
 import CustProfile from './customer/drawer/CustProfile'
 
+import BoothAddDeliveryBoy from './booth/drawer/BoothAddDeliveryBoy'
+import BoothCustomer from './booth/drawer/BoothCustomer'
+import BoothDeliveries from './booth/drawer/BoothDeliveries'
+import BoothNewOrders from './booth/drawer/BoothNewOrders'
+import BoothPayments from './booth/drawer/BoothPayments'
+import BoothUpdateDeliveryBoy from './booth/drawer/BoothUpdateDeliveryBoy'
+
+
 const Stack = createNativeStackNavigator()
 
 const StackNavigator = () => {
@@ -120,7 +128,7 @@ options={{
 
 <Stack.Screen name="addProduct" component={AddProduct} 
 options={{
-    title: "Factory - Add product",
+    title: "Factory ",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -128,7 +136,7 @@ options={{
 
 <Stack.Screen name="boothList" component={BoothList} 
 options={{
-    title: "Factory - Booth list",
+    title: "Factory",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -136,7 +144,7 @@ options={{
 
 <Stack.Screen name="deliveryF" component={DeliveryF} 
 options={{
-    title: "Factory - Delivered",
+    title: "Factory",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -145,7 +153,7 @@ options={{
 
 <Stack.Screen name="orders" component={Orders} 
 options={{
-    title: "Factory - Orders ",
+    title: "Factory",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -153,7 +161,7 @@ options={{
 
 <Stack.Screen name="modify" component={Modify} 
 options={{
-    title: "Factory - Modify Data",
+    title: "Factory",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -161,7 +169,7 @@ options={{
 
 <Stack.Screen name="products" component={Products} 
 options={{
-    title: "Factory - Product List",
+    title: "Factory",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -169,7 +177,7 @@ options={{
 
 <Stack.Screen name="userD" component={UserD} 
 options={{
-    title: "Delivery Person - User",
+    title: "Delivery Person ",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -177,7 +185,7 @@ options={{
 
 <Stack.Screen name="ordersD" component={PreviousD} 
 options={{
-    title: "Delivery Person - Delivered",
+    title: "Delivery Person ",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -185,7 +193,7 @@ options={{
 
 <Stack.Screen name="deliveryD" component={DeliveryD} 
 options={{
-    title: "Delivery Person - Assigned",
+    title: "Delivery Person ",
     headerStyle: {
       backgroundColor: 'cornflowerblue',
 }}}
@@ -219,6 +227,54 @@ options={{
 
 
 <Stack.Screen name="custProfile" component={CustProfile} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothAddDeliveryBoy" component={BoothAddDeliveryBoy} 
+options={{
+    title: "Booth",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothCustomer" component={BoothCustomer} 
+options={{
+    title: "Booth",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothPayments" component={BoothPayments} 
+options={{
+    title: "Booth",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothDeliveries" component={BoothDeliveries} 
+options={{
+    title: "Booth",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothUpdate" component={BoothUpdateDeliveryBoy} 
+options={{
+    title: "Customer",
+    headerStyle: {
+      backgroundColor: 'cornflowerblue',
+}}}
+/>
+
+<Stack.Screen name="boothOrders" component={BoothNewOrders} 
 options={{
     title: "Customer",
     headerStyle: {

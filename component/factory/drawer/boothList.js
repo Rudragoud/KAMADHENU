@@ -1,4 +1,4 @@
-import { View , Image ,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
+import { View , Image ,StyleSheet,TouchableOpacity,ScrollView,Text} from 'react-native'
 import React from 'react'
 import { useNavigation} from '@react-navigation/native'
 import { DataTable } from 'react-native-paper';
@@ -126,6 +126,12 @@ const booths = [
        </TouchableOpacity>
       </View>
 
+      <View>
+        <Text style={styles.heading}>
+          Booth List 
+        </Text>
+      </View>
+
       <ScrollView>
       <DataTable >
       <DataTable.Header style={styles.tableHeader}>
@@ -170,7 +176,14 @@ const styles=StyleSheet.create({
     },
     tableHeader:{
       backgroundColor:'yellow'
-    }
+    },
+    heading:{
+      textAlign:'center',
+      fontSize:25,
+      fontWeight:'bold',
+      marginBottom:20
+    
+    },
   
     
 

@@ -1,15 +1,16 @@
 import React,{useState} from 'react'
-import { View, TextInput, Image, Button, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, TextInput, Image, Button, StyleSheet, TouchableOpacity, ScrollView,Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { DataTable } from 'react-native-paper';
 
-const UserD = () => {
+
+
+const BoothUpdateDeliveryBoy = () => {
 
     const navigation = useNavigation()
-    const [delID,setDelID]=useState('Del ID : 001')
-    const [delName,setDelName]=useState('Del Name : XYZ')
-    const [delPhNum,setDelPhNum]=useState('Del Ph Num : 9009990987')
-    const [delEmail,setDelEmail]=useState('Del Email : xyz@gmail.com')
+    const [delID,setDelID]=useState('')
+    const [delName,setDelName]=useState('')
+    const [delPhNum,setDelPhNum]=useState('')
+    const [delEmail,setDelEmail]=useState('')
 
 
 const handleClick=()=>{
@@ -20,26 +21,34 @@ console.log('hello')
     return (
         <View>
             <View style={styles.innerContainer}>
-                <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("DDashboard")}>
+             
+                <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("BDashboard")}>
                     <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
                 </TouchableOpacity>
+               
+
             </View>
 
             <View>
-                <Text style={styles.heading}>User Details</Text>
+                <Text style={styles.heading} >Update Delivery Boy Details</Text>
             </View>
-
+      
             <View>
             <Image source={require('../../../assets/img/user.png')} style={styles.imgMain} />
             </View>
 
+
             <View style={styles.data}>
-    <TextInput disabled value={delID} style={styles.input} />
-        <TextInput disabled value={delName}  style={styles.input} />
-        <TextInput disabled value={delPhNum}  style={styles.input} />
-        <TextInput disabled value={delEmail}  style={styles.input} />
+            <Text style={styles.lbl}>ID</Text>
+    <TextInput  value={delID} style={styles.input} />
+    <Text style={styles.lbl}>Name</Text>
+        <TextInput  value={delName}  style={styles.input}  />
+        <Text style={styles.lbl}>Phone number</Text>
+        <TextInput  value={delPhNum}  style={styles.input} />
+        <Text style={styles.lbl}>Email</Text>
+        <TextInput  value={delEmail}  style={styles.input} />
         <TouchableOpacity style={styles.btn}>
-            <Button title="Request data updation" onPress={handleClick} />
+            <Button title="Update" onPress={handleClick} />
         </TouchableOpacity>
     </View>   
 
@@ -94,8 +103,6 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:25,
         fontWeight:'bold',
-        marginBottom:20
-      
       },
 
 
@@ -103,4 +110,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default UserD
+export default BoothUpdateDeliveryBoy

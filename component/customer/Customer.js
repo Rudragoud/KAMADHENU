@@ -1,18 +1,39 @@
 import { View, Text,StyleSheet,Image,Button,TextInput,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
 
 const Customer = () => {
 
   const navigation=useNavigation()
 
-  const [username,setuserName]=useState('');
+  const [phn,setPhn]=useState('');
   const [password,setPassword]=useState('');
+ 
+
+  async function handleClick(){
 
 
-  function handleClick(val){
-    navigation.navigate(val)
-    console.log(val)
+     if(phn=="" || password==""){
+      alert("Please enter both username and password")
+      setPhn('')
+      setPassword('')
+     
+     }else{
+    const res = await axios.get(`http://192.168.29.227:8000/custlogin/${phn}/${password}`)
+    
+      if(res.data!="Fail"){
+        navigation.navigate("CDashboard",{usrID:res.data[0].id})  
+        setPhn('')
+        setPassword('')
+      }else{
+        alert("Invalid credentials!")
+      }
+      
+     }
+
+     
   }
 
   return (
@@ -20,10 +41,13 @@ const Customer = () => {
       <Text style={styles.heading}>Customer Login</Text>
       <Image source={require('../../assets/img/customer.png')} style={styles.Img}/>
       <View >
-        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={setuserName} />
-        <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={setPassword} />
+        <TextInput value={phn} style={styles.input} placeholder="Enter Phone number" onChangeText={(e)=>setPhn(e)} />
+        <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={(e)=>setPassword(e)} />
+
+      
+
        <TouchableOpacity style={styles.btn} >
-       <Button title="Login" onPress={()=>handleClick("CDashboard")} />
+       <Button title="Login" onPress={handleClick} />
        </TouchableOpacity>
       
       </View>

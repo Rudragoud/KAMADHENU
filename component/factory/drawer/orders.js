@@ -1,160 +1,34 @@
 import { View, Text , Image ,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import { useNavigation} from '@react-navigation/native'
 import { DataTable } from 'react-native-paper';
-const Orders = () => {
+import axios from 'axios';
+const Orders = ({navigation,route}) => {
 
-const navigation=useNavigation()
+const plantName=route.params
+
+console.log(plantName)
+
+const [orders,setOrders]=useState([])
 
 
+async function fetchAllOrders(){
+  const res = await axios.get( `http://192.168.29.227:8000/boothorder/${plantName}`)
+  setOrders(res.data.boothorder)
+  
+}
 
-const deliveredData = [
-  {
-  id: "1",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "2",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "3",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "4",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "5",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "6",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "7",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "8",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "9",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "10",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
 
-  {
-  id: "11",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "12",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "13",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "14",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-  {
-  id: "15",
-  name: "Earnest Green",
-  product:8988989876,
-  price:"kengeri",
-  pincode:560060,
-  quantity:10,
-  date:'25/09/22'
-  },
-];
+useEffect(()=>{
+fetchAllOrders()
+},[])
+
+
 
   return (
 
     <View>
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("FDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+      
 
 
     <View>
@@ -163,27 +37,27 @@ const deliveredData = [
       </Text>
     </View>
 
-      <ScrollView>
+      <ScrollView horizontal={true}>
       <DataTable >
       <DataTable.Header style={styles.tableHeader}>
-      <DataTable.Title>Booth id</DataTable.Title>
-        <DataTable.Title>Name</DataTable.Title>
-        <DataTable.Title>Product</DataTable.Title>
+      <DataTable.Title>Order Id</DataTable.Title>
+        <DataTable.Title>Booth name</DataTable.Title>
+        <DataTable.Title>Product name</DataTable.Title>
         <DataTable.Title>Price</DataTable.Title>
         <DataTable.Title>Quantity</DataTable.Title>
-        <DataTable.Title>Date</DataTable.Title>
+        <DataTable.Title>Delivered date</DataTable.Title>
       </DataTable.Header>
      
      
 
-{deliveredData.map((booth)=>{
-        return  <DataTable.Row key={booth.id}>
-        <DataTable.Cell>{booth.id}</DataTable.Cell>
-        <DataTable.Cell>{booth.name}</DataTable.Cell>
-        <DataTable.Cell>{booth.product}</DataTable.Cell>
-        <DataTable.Cell>{booth.price}</DataTable.Cell>
-        <DataTable.Cell>{booth.quantity}</DataTable.Cell>
-        <DataTable.Cell>{booth.date}</DataTable.Cell>
+{orders.map((order)=>{
+        return  <DataTable.Row key={order.BO_ID}>
+        <DataTable.Cell>{order.BO_ID}</DataTable.Cell>
+        <DataTable.Cell>{order.B_NAME}</DataTable.Cell>
+        <DataTable.Cell>{order.P_NAME}</DataTable.Cell>
+        <DataTable.Cell>{order.BO_PRICE}</DataTable.Cell>
+        <DataTable.Cell>{order.P_QUANTITY}</DataTable.Cell>
+        <DataTable.Cell>{order.BO_DELIVERYDATE ? new Date(order.BO_DELIVERYDATE).getDate()+"/"+(new Date(order.BO_DELIVERYDATE).getMonth()+1)+"/"+new Date(order.BO_DELIVERYDATE).getFullYear() : "Pending" }</DataTable.Cell>
       </DataTable.Row>
       })}
       

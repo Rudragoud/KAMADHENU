@@ -1,36 +1,37 @@
 import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,TextInput} from 'react-native'
 import React,{useState} from 'react'
-import { useNavigation, useNavigationState } from '@react-navigation/native'
-const AddProduct = () => {
+import axios from 'axios'
+const AddProduct = ({navigation,route}) => {
 
-    const navigation=useNavigation()
-
-    const [PID,setPID]=useState('')
+  const plantName=route.params
+  console.log(plantName)
+    
     const [PName,setPName]=useState('')
     const [PPrice,setPPrice]=useState('')
-    const [FactoryID,setFactoryId]=useState('')
+    
 
 
-      function handleSave(){
-        
+      async function handleSave(){
+        const res = await axios.get(`http://192.168.29.227:8000/factaddproduct/${PName}/${PPrice}/${plantName}`)
+        if(res.data=="success"){
+          alert("Product was succesfully inserted!!")
+        }else{
+          alert("Unknown error occured!!")
+        }
       }
 
   return (
     <View style={styles.container}>
      
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("FDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+      
 
       <Text style={styles.heading}>ADD PRODUCT</Text>
       <Image source={require('../../../assets/img/addProduct.png')} style={styles.imgFrame} />
       <View style={styles.containerInput}>
-      <TextInput style={styles.input} placeholder="Product ID" value={PID} onChangeText={setPID}  />
+     
       <TextInput style={styles.input} placeholder="Product Name" value={PName} onChangeText={setPName}  />
       <TextInput style={styles.input} placeholder="Product Price" value={PPrice} onChangeText={setPPrice}  />
-      <TextInput style={styles.input} placeholder="FactoryID" value={FactoryID} onChangeText={setFactoryId}  />
+  
       <TouchableOpacity style={styles.btn} >
         <Button title="Save" color="cornflowerblue" onPress={()=>handleSave()}/>
       </TouchableOpacity>
@@ -73,9 +74,11 @@ const styles=StyleSheet.create({
     heading:{
       textAlign:'center',
       fontWeight:'bold',
-      fontSize:30
+      fontSize:30,
+      marginTop:60
     }
    
+
   
   
     

@@ -1,34 +1,40 @@
 import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
-import React,{useState} from 'react'
-import { useNavigation} from '@react-navigation/native'
-import DropDownPicker from 'react-native-dropdown-picker';
+import React,{useEffect, useState} from 'react'
+
 import { TextInput } from 'react-native-paper';
+import axios from 'axios';
 
-const Modify = () => {
+const Modify = ({navigation,route}) => {
 
-const navigation=useNavigation()
+  const plantName = route.params
 
-const [PID,setPID]=useState('')
-const [PName,setPName]=useState('')
-const [PPrice,setPPrice]=useState('')
-const [PlantID,setPlantID]=useState('')
-
+  const [BoothName,setBoothName]=useState('')
+const [phn,setPhn]=useState('')
+const [email,setEmail]=useState('')
+const [addr,setAddr]=useState('')
+const [pin,setPin]=useState('')
 const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
-    {label: 'Mango', value: 'Mango'},
-    {label: 'Ananas', value: 'Ananas'},
-    {label: 'Peach', value: 'Peach'},
-    {label: 'Kashmir apple', value: 'Kashmir'},
-    {label: 'Hyderabad biryani', value: 'Hyderabad'},
-    {label: 'Haha', value: 'Haha'},
-    {label: 'Huehuehue', value: 'Huehuehue'},
-    {label: 'jAJAJA', value: 'jAJAJA'},
-    {label: 'IDLy', value: 'IDLy'},
-    {label: 'Dosa', value: 'Dosa'},
-  ]);
+  const [items, setItems] = useState([]);
+
+
+
+
+  async function fetchBoothList(){
+    const res = await axios.get('http://192.168.29.227:8000/factoryboothname/')
+    res.data.data.forEach((booth)=>{
+      items.push({label:booth.B_NAME,value:booth.B_NAME})
+    })
+  }
+
+  useEffect(()=>{
+
+    fetchBoothList()
+
+  },[])
+
+
+
 
 
   const handleUpdate=()=>{
@@ -42,11 +48,7 @@ const [open, setOpen] = useState(false);
   return (
 
     <View>
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("FDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+      
 
       
 
@@ -55,44 +57,17 @@ const [open, setOpen] = useState(false);
     </View>
       
     <View style={styles.DropDownArea}>
-      <DropDownPicker
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-      
-      style={{
-        backgroundColor:'cornflowerblue',
-        borderWidth:0,
-
-      }}
-
-      textStyle={{
-        color:'#fff',
-        fontSize:17,
-        fontWeight:'bold'
-      }}
-
      
-
-      placeholder="Select product ID"
-      dropDownContainerStyle={{
-        backgroundColor: "cornflowerblue",
-        borderWidth:0,
-      }}
-
-    />
       </View>
     
       <View style={styles.inputContainer}>
-        <TextInput placeholder='Product ID' style={styles.input} value={PID} onChangeText={setPID}  />
-        <TextInput placeholder='Product Name' style={styles.input} value={PName} onChangeText={setPName}  />
-        <TextInput placeholder='Product Price' style={styles.input} value={PPrice} onChangeText={setPPrice}  />
-        <TextInput placeholder='Product Plant ID' style={styles.input} value={PlantID} onChangeText={setPlantID}  />
+        <TextInput placeholder='Booth Name' style={styles.input} value={BoothName} onChangeText={setBoothName}  />
+        <TextInput placeholder='Phone number' style={styles.input} value={phn} onChangeText={setPhn}  />
+        <TextInput placeholder='Email ID' style={styles.input} value={email} onChangeText={setEmail}  />
+        <TextInput placeholder='Address' style={styles.input} value={addr} onChangeText={setAddr}  />
+        <TextInput placeholder='Pin code' style={styles.input} value={pin} onChangeText={setPin}  />
         <TouchableOpacity style={styles.btn}>
-          <Button title="update" onPress={handleUpdate} style={styles.btnButton} />
+          <Button title="Update" onPress={handleUpdate} style={styles.btnButton} />
           
         </TouchableOpacity>
 

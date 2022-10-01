@@ -16,7 +16,6 @@ import BoothList from './factory/drawer/boothList'
 import Orders from './factory/drawer/orders'
 import Modify from './factory/drawer/modify'
 import Products from './factory/drawer/products'
-import DeliveryF from '../component/factory/drawer/delivery'
 import PreviousD from './delivery/drawer/PreviousD'
 import UserD from '../component/delivery/drawer/UserD'
 import DeliveryD from '../component/delivery/drawer/NewDeliveries'
@@ -142,13 +141,7 @@ options={{
 }}}
 />
 
-<Stack.Screen name="deliveryF" component={DeliveryF} 
-options={{
-    title: "Factory",
-    headerStyle: {
-      backgroundColor: 'cornflowerblue',
-}}}
-/>
+
 
 
 <Stack.Screen name="orders" component={Orders} 

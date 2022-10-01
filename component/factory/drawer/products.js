@@ -1,116 +1,31 @@
 import { View, Text , Image ,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
-import React from 'react'
-import { useNavigation} from '@react-navigation/native'
+import React, { useState,useEffect } from 'react'
 import { DataTable } from 'react-native-paper';
-const Products = () => {
+import axios from 'axios';
+const Products = ({navigation,route}) => {
 
-const navigation=useNavigation()
+  const plantName = route.params
 
+  console.log(plantName)
 
-
-const booths = [
-  {
-  id: "1",
-  name: "Earnest Green",
-  price:444,
-  plantID:"kengeri",
+  const [prods,setprods]=useState([])
   
-  },
-  {
-  id: "2",
-  name: "Earnest Green",
-  price:444,
-  plantID:"kengeri",
-  },
-  {
-  id: "3",
-  name: "Earnest Green",
-  price:234,
-  plantID:"kengeri",
-  },
-  {
-  id: "4",
-  name: "Earnest Green",
-  price:667,
-  plantID:"kengeri",
-  },
-  {
-  id: "5",
-  name: "Earnest Green",
-  price:898,
-  plantID:"kengeri",
-  },
-  {
-  id: "6",
-  name: "Earnest Green",
-  price:898,
-  plantID:"kengeri",
-  },
-  {
-  id: "7",
-  name: "Earnest Green",
-  price:100,
-  plantID:"kengeri",
-  },
-  {
-  id: "8",
-  name: "Earnest Green",
-  price:200,
-  plantID:"kengeri",
-  },
-  {
-  id: "9",
-  name: "Earnest Green",
-  price:122,
-  plantID:"kengeri",
-  },
-  {
-  id: "10",
-  name: "Earnest Green",
-  price:345,
-  plantID:"kengeri",
-  },
+  async function fetchAllProducts(){
+    const res = await axios.get(`http://192.168.29.227:8000/factprodlist/${plantName}`)
+    
+    setprods(res.data.prodlist)
+  }
 
-  {
-  id: "11",
-  name: "Earnest Green",
-  price:432,
-  plantID:"kengeri",
-  },
-  {
-  id: "12",
-  name: "Earnest Green",
-  price:453,
-  plantID:"kengeri",
-  },
-  {
-  id: "13",
-  name: "Earnest Green",
-  price:543,
-  plantID:"kengeri",
-  },
-  {
-  id: "14",
-  name: "Earnest Green",
-  price:543,
-  plantID:"kengeri",
-  },
-  {
-  id: "15",
-  name: "Earnest Green",
-  price:455,
-  plantID:"kengeri",
-  },
-];
+  useEffect(()=>{
+    fetchAllProducts()
+  },[])
+
+
 
   return (
 
     <View>
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("FDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+     
 
       <View>
         <Text style={styles.heading}>Product List</Text>
@@ -119,21 +34,19 @@ const booths = [
       <ScrollView>
       <DataTable >
       <DataTable.Header style={styles.tableHeader}>
-      <DataTable.Title>Booth id</DataTable.Title>
-        <DataTable.Title>Name</DataTable.Title>
+        <DataTable.Title>Product Name</DataTable.Title>
         <DataTable.Title>Price</DataTable.Title>
-        <DataTable.Title>Plant ID</DataTable.Title>
+        <DataTable.Title>Plant Name</DataTable.Title>
        
       </DataTable.Header>
      
    
 
-      {booths.map((booth)=>{
-        return  <DataTable.Row key={booth.id}>
-        <DataTable.Cell>{booth.id}</DataTable.Cell>
-        <DataTable.Cell>{booth.name}</DataTable.Cell>
-        <DataTable.Cell>{booth.price}</DataTable.Cell>
-        <DataTable.Cell>{booth.plantID}</DataTable.Cell>
+      {prods.map((prod)=>{
+        return  <DataTable.Row key={prod.P_NAME}>
+        <DataTable.Cell>{prod.P_NAME}</DataTable.Cell>
+        <DataTable.Cell>{prod.P_PRICE}</DataTable.Cell>
+        <DataTable.Cell>{prod.PLANT_NAME}</DataTable.Cell>
       </DataTable.Row>
       })}
       

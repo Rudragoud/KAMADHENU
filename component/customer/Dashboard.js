@@ -1,11 +1,15 @@
 import { View, Text , StyleSheet , Button ,Image , TouchableOpacity} from 'react-native'
-import React,{useState} from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React,{useState,useEffect} from 'react'
 
 
-const CDashboard = () => {
 
-const navigation=useNavigation()
+const CDashboard = ({navigation,route=null}) => {
+
+  const {usrID}=route.params;
+ 
+
+
+ 
 
   return (
     <View style={styles.container}>
@@ -13,12 +17,12 @@ const navigation=useNavigation()
       
       <View style={styles.containerIcons}>
       
-       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custProduct")}>
+       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custProduct",usrID)}>
        <Image source={require('../../assets/icons/productsCustomer.png')}  />
        <Text style={styles.caption}>View products</Text>
        </TouchableOpacity>
       
-       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custHistory")}>
+       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custHistory",usrID)}>
        <Image source={require('../../assets/icons/orders.png')}  />
        <Text style={styles.caption}>History</Text>
        </TouchableOpacity>
@@ -26,17 +30,21 @@ const navigation=useNavigation()
       
    
     
-       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custCart")}>
+       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custCart",usrID)}>
        <Image source={require('../../assets/icons/Cart.png')}  />
        <Text style={styles.caption}>Cart</Text>
      </TouchableOpacity>
 
 
-     <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custProfile")}>
+     <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custProfile",usrID)}>
        <Image source={require('../../assets/icons/user1.png')}  />
        <Text style={styles.caption}>Profile</Text>
      </TouchableOpacity>
   
+    <TouchableOpacity >
+    <Button title="Logout" onPress={()=>navigation.navigate("Milk dairy")}/>
+    </TouchableOpacity>
+
       </View>
     </View>
   )

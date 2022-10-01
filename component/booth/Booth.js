@@ -20,8 +20,8 @@ const Booth = () => {
       <Text style={styles.heading}>Booth Login</Text>
       <Image source={require('../../assets/img/shop.png')} style={styles.Img}/>
       <View >
-        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={setuserName} />
-        <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={setPassword} />
+        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={e=>setuserName(e)} />
+        <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={e=>setPassword(e)} />
        <TouchableOpacity style={styles.btn} >
        <Button title="Login" onPress={()=>handleClick("BDashboard")} />
        </TouchableOpacity>

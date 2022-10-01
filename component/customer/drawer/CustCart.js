@@ -1,16 +1,21 @@
 import { View, Text,StyleSheet,TouchableOpacity,Image,ScrollView , Button} from 'react-native'
 import React,{useState} from 'react'
-import {  DataTable } from 'react-native-paper';
+import {  DataTable, TextInput } from 'react-native-paper';
 import { useNavigation} from '@react-navigation/native'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const CustCart = () => {
 
   const navigation =useNavigation()
 
   const [PName,setPName]=useState('')
-  const[PPrice,setPPrice]=useState('')
   const [qty,setQty]=useState('')
   const [ttl,setTtl]=useState(0)
+  const [boothName,setBoothName]=useState()
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [deliveryDate,setDeliveryDate]=useState('')
+  const [items, setItems] = useState([])
 
   const cart=[
     {
@@ -22,6 +27,8 @@ const CustCart = () => {
     
   ]
 
+
+
   const handleOrder=()=>{
     console.log("Order succesfull")
   }
@@ -30,42 +37,48 @@ const CustCart = () => {
     <View style={styles.container}>
 
 
-<View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("CDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+
 
     <View >
        <Text style={styles.heading}>  CART </Text>
     </View>
 
+<View>
+<TextInput style={styles.input} placeholder="Product name" value={PName} onChangeText={setPName}  />
+<TextInput style={styles.input} placeholder="Quantity" value={qty} onChangeText={setQty}  />
+<View style={styles.DropDownArea}>
+      <DropDownPicker
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
       
+      style={{
+        backgroundColor:'cornflowerblue',
+        borderWidth:0,
+      }}
 
-      <ScrollView>
-      <DataTable >
-      <DataTable.Header style={styles.tableHeader}>
-      <DataTable.Title>Product Name</DataTable.Title>
-        <DataTable.Title>Product Price</DataTable.Title>
-        <DataTable.Title>Quantity</DataTable.Title>
-      </DataTable.Header>
-     
-      {cart.map((product)=>{
-        return  <DataTable.Row key={product.id}>
-        <DataTable.Cell>{product.PName}</DataTable.Cell>
-        <DataTable.Cell>{product.PPrice}</DataTable.Cell>
-        <DataTable.Cell>{product.Quantity}</DataTable.Cell>
-      </DataTable.Row>
-      })}
-     
-     
+      textStyle={{
+        color:'#fff',
+        fontSize:17,
+        fontWeight:'bold'
+      }}
+
      
 
-   
+      placeholder="Select product ID"
+      dropDownContainerStyle={{
+        backgroundColor: "cornflowerblue",
+        borderWidth:0,
+      }}
+/>
+</View>
+<TextInput style={styles.input} placeholder="Booth name" value={boothName} onChangeText={setBoothName}  />
+<TextInput style={styles.input} placeholder="Delivery Date" value={deliveryDate} onChangeText={setDeliveryDate}  />
+</View>
       
-    </DataTable>
-    </ScrollView>
-
 <View>
   <Text style={styles.total}>Total  : {ttl} </Text> 
 </View>
@@ -101,7 +114,17 @@ const styles=StyleSheet.create({
     textAlign:'center',
     marginTop:20,
     marginBottom:20
-  }
+  },
+  input:{
+    borderWidth:1,
+marginBottom:10 ,
+height:40,
+textAlign:'center',
+fontSize:19,
+marginTop:30,
+backgroundColor:"#fff",
+fontWeight:'bold'
+},
 })
 
 export default CustCart

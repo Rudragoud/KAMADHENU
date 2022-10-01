@@ -1,34 +1,38 @@
 import { View, Text,StyleSheet,TouchableOpacity,Image,ScrollView } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { DataTable } from 'react-native-paper';
-import { useNavigation} from '@react-navigation/native'
+import axios from 'axios';
+import moment from 'moment/moment';
 
-const CustHistory = () => {
+const CustHistory = ({navigation,route}) => {
 
-    const navigation=useNavigation()
+    const usrID=route.params;
+    const [orders,setOrders]=useState([])
 
-    const orders=[
-        {
-            id:"001",
-            BName:"Booth 1",
-            CName:"Punith",
-            PName:"Nandini Blue Milk",
-            Price:"22"
-               },
-             
+
+    async function fetchHistory(){
+      const res = await  axios.get(`http://192.168.29.227:8000/custorderhistory/${usrID}`)
+      console.log(res.data.orders)
+      setOrders(res.data.orders)
+
+    }
+
+    
+    useEffect(()=>{
+      fetchHistory()
+    },[])
+
+
+
+    
                                    
-    ]
+    
 
 
   return (
     <View style={styles.container}>
 
 
-<View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("CDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
 
     <View >
        <Text style={styles.heading}>  Previous Orders</Text>
@@ -36,21 +40,23 @@ const CustHistory = () => {
 
       
 
-      <ScrollView>
+      <ScrollView horizontal={true}>
       <DataTable >
-      <DataTable.Header style={styles.tableHeader}>
+      <DataTable.Header style={styles.tableHeader} >
       <DataTable.Title>Booth name</DataTable.Title>
-        <DataTable.Title>Customer name</DataTable.Title>
         <DataTable.Title>Product name</DataTable.Title>
         <DataTable.Title>Price</DataTable.Title>
+        <DataTable.Title>Quantity</DataTable.Title>
+        <DataTable.Title>Delivery date</DataTable.Title>
       </DataTable.Header>
      
       {orders.map((order)=>{
-        return  <DataTable.Row key={order.id}>
-        <DataTable.Cell>{order.BName}</DataTable.Cell>
-        <DataTable.Cell>{order.CName}</DataTable.Cell>
-        <DataTable.Cell>{order.PName}</DataTable.Cell>
-        <DataTable.Cell>{order.Price}</DataTable.Cell>
+        return  <DataTable.Row key={order.CO_ID}>
+        <DataTable.Cell style={styles.pad}>{order.B_NAME}</DataTable.Cell>
+        <DataTable.Cell style={styles.pad}>{order.P_NAME}</DataTable.Cell>
+        <DataTable.Cell style={styles.pad}>{order.P_PRICE}</DataTable.Cell>
+        <DataTable.Cell style={styles.pad}>{order.P_QUANTITY}</DataTable.Cell>
+        <DataTable.Cell style={styles.pad}>{new Date(order.CO_DELIVERYDATE).getDate()+"/"+(new Date(order.CO_DELIVERYDATE).getMonth()+1)+"/"+new Date(order.CO_DELIVERYDATE).getFullYear()}</DataTable.Cell>
       </DataTable.Row>
       })}
      
@@ -80,7 +86,11 @@ const styles=StyleSheet.create({
         marginTop:20,
         fontWeight:'bold',
         fontSize:30,
-        marginBottom:20
+        marginBottom:20,
+        marginRight:30
+      },
+    pad:{
+      marginRight:30
     }
 })
 

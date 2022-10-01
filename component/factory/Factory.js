@@ -1,29 +1,51 @@
 import { View, Text,StyleSheet,Image,Button,TextInput,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const Factory = () => {
 
   const navigation=useNavigation()
 
-  const [username,setuserName]=useState('');
+  const [plantName,setplantName]=useState('');
   const [password,setPassword]=useState('');
 
 
-  function handleClick(val){
-    navigation.navigate(val)
-    console.log(val)
-  }
+  async function handleClick(){
+
+    
+    if(plantName=="" || password==""){
+     alert("Please enter both username and password")
+     setplantName('')
+     setPassword('')
+    
+    }else{
+   
+      const res = await axios.get(`http://192.168.29.227:8000/factlogin/${plantName}/${password}`)
+     if(res.data!="Fail"){
+       navigation.navigate("FDashboard",plantName)  
+       setplantName('')
+       setPassword('')
+     }else{
+       alert("Invalid credentials!")
+       setplantName('')
+       setPassword('')
+     }
+     
+    }
+
+    
+ }
 
   return (
     <View>
       <Text style={styles.heading}>Factory Login</Text>
       <Image source={require('../../assets/img/factory.png')} style={styles.Img}/>
       <View >
-        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={setuserName} />
+        <TextInput value={plantName} style={styles.input} placeholder="Enter Username" onChangeText={setplantName} />
         <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={setPassword} />
        <TouchableOpacity style={styles.btn} >
-       <Button title="Login" onPress={()=>handleClick("FDashboard")} />
+       <Button title="Login" onPress={()=>handleClick()} />
        </TouchableOpacity>
       
       </View>
@@ -60,7 +82,7 @@ marginLeft:80
   },
   btn:{
     width:100,
-    marginLeft:120
+    marginLeft:140
   },
 })
 

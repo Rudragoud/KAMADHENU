@@ -1,111 +1,107 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView,TextInput } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { Avatar, Card, Title, Paragraph, Button } from 'react-native-paper';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView,TextInput ,Button} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { DataTable } from 'react-native-paper';
+import axios from 'axios';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { InteractionManager } from 'react-native';
 
-const CustProducts = () => {
-    const navigation = useNavigation();
-    const [qtyCurr, setQtyCurr] = useState(0)
-    const handleClick = () => {
-        console.log(qtyCurr)
-    }
+const CustProducts = ({navigation,route}) => {
+    const [qty,setQty]=useState(0)
+    const [price,setPrice]=useState('')
+    const [ttl,setTtl]=useState(0)
+    const usrID=route.params
+   
+    const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+
+  const [items, setItems] = useState([])
+
+    
+
+  async function fetchAllProducs(){
+    const res = await axios.get('http://192.168.29.227:8000/custproductname')
+    res.data.products.forEach((product)=>{
+        items.push({label: product.P_NAME, value: product.P_NAME})
+    })
+  }
+
+  async function handleChange(val){
+    setTtl(0)
+    const res=await axios.get(`http://192.168.29.227:8000/custproducts/${val}`)
+    console.log(res.data.productdetails[0].P_PRICE)
+    setPrice(res.data.productdetails[0].P_PRICE)
+    setTtl((price)*parseInt(qty));
+    
+  }
+
+
+  function handleQtyChange(val){
+    setQty(val)
+    setTtl((price)*parseInt(qty));
+  }
+
+  function handleClick(){
+    console.log(qty)
+  }
+
+
+
+
+  useEffect(()=>{
+   
+    fetchAllProducs()
+  },[])
 
     return (
         <View style={styles.container}>
-
-<View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("CDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
-
-
             <View>
-                <Text style={styles.heading}>Select Products</Text>
+                <Text style={styles.heading}>Add products to cart</Text>
             </View>
 
+        <View>
+
+        <View style={styles.DropDownArea}>
+      <DropDownPicker
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
+      
+      style={{
+        backgroundColor:'cornflowerblue',
+        borderWidth:0,
+      }}
+
+      textStyle={{
+        color:'#fff',
+        fontSize:17,
+        fontWeight:'bold'
+      }}
+
+     onChangeValue={(val)=>handleChange(val)}
+     
+
+      placeholder="Select product ID"
+      dropDownContainerStyle={{
+        backgroundColor: "cornflowerblue",
+        borderWidth:0,
+      }}
+/>
+
+</View>
+<TextInput style={styles.input} placeholder="Quantity" value={qty} onChangeText={(val)=>handleQtyChange(val)}  />
+<Text style={styles.txt}>Price : {price}</Text>
+<Text style={styles.txt}>Total amount : {ttl}</Text>
+<Button title="Add to cart" onPress={handleClick} />
 
 
-            <ScrollView>
-                <View style={styles.CardContainer}>
+    
 
 
-                    <Card style={styles.card}>
-                        <Card.Title title="Blue milk" subtitle="$500" />
+        </View>
 
-                        <Card.Cover source={{ uri: 'https://picsum.photos/741' }} />
-
-            <View style={styles.containerVal}>
-                        <Card.Actions >
-                           <View style={styles.actionContainer} >
-                          <View >
-                          <TextInput placeholder="Quantity" value={qtyCurr} 
-                                onChangeText={val => setQtyCurr(val)} mode="flat" backgroundColor="#fff" style={styles.input} />
-                          </View>
-
-                            <TouchableOpacity onPress={handleClick}>
-                                <Text style={styles.cartBtn}>Add to cart</Text>
-                            </TouchableOpacity>
-                           </View>
-
-                        </Card.Actions>
-                        </View>
-                    </Card>
-
-
-                    <Card style={styles.card}>
-                        <Card.Title title="Blue milk" subtitle="$500" />
-
-                        <Card.Cover source={{ uri: 'https://picsum.photos/712' }} />
-
-            <View style={styles.containerVal}>
-                        <Card.Actions >
-                           <View style={styles.actionContainer} >
-                          <View >
-                          <TextInput placeholder="Quantity" value={qtyCurr}
-                                onChangeText={val => setQtyCurr(val)} mode="flat" backgroundColor="#fff" style={styles.input} />
-                          </View>
-
-                            <TouchableOpacity onPress={handleClick}>
-                                <Text style={styles.cartBtn}>Add to cart</Text>
-                            </TouchableOpacity>
-                           </View>
-
-                        </Card.Actions>
-                        </View>
-                    </Card>
-
-
-                    <Card style={styles.card}>
-                        <Card.Title title="Blue milk" subtitle="$500" />
-
-                        <Card.Cover source={{ uri: 'https://picsum.photos/701' }} />
-
-            <View style={styles.containerVal}>
-                        <Card.Actions >
-                           <View style={styles.actionContainer} >
-                          <View >
-                          <TextInput placeholder="Quantity" value={qtyCurr}
-                                onChangeText={val => setQtyCurr(val)} mode="flat" backgroundColor="#fff" style={styles.input} />
-                          </View>
-
-                            <TouchableOpacity onPress={handleClick}>
-                                <Text style={styles.cartBtn}>Add to cart</Text>
-                            </TouchableOpacity>
-                           </View>
-
-                        </Card.Actions>
-                        </View>
-                    </Card>
-
-
-
-
-
-
-
-                </View>
-            </ScrollView>
         </View>
     )
 }
@@ -120,60 +116,51 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 25,
         textAlign: 'center',
-        fontWeight: 'bold'
-    },
-
-    CardContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-    },
-
-
-    card: {
-        width: 250,
-        backgroundColor: '#ddd',
-        marginBottom: 50,
-
-    },
-
-    cartBtn: {
-        backgroundColor: 'cornflowerblue',
-        textAlign: 'center',
-        padding: 10,
         fontWeight: 'bold',
-        fontSize: 15,
-        color: '#fff',
-        height: 50,
-        marginTop:10,
-        marginRight:15
+        marginTop:80
     },
 
+    tableHeader:{
+        marginRight:30
+    },
+   
+    pad:{
+        marginRight:45,
 
-    actionContainer:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center'
     },
 
     input:{
-        width:200,
-        height:50,
-        fontWeight:'bold',
-        color:'#000',
-        textAlign:'center',
-        marginTop:10,
-        marginRight:15
+        borderWidth:1,
+   marginBottom:10 ,
+   height:40,
+   textAlign:'center',
+   fontSize:19,
+   marginTop:30,
+   fontWeight:'bold'
     },
-    
-    imgHome:{
-        width:30,
-        height:30,
 
-    },
+
+   DropDownArea:{
+    marginTop:30
+   }
+
+   ,
+
+   txt:{
+    fontSize:24,
+    textAlign:'center',
+    marginTop:15,
+    marginBottom:20,
+    fontWeight:'bold'
+   }
+
+
+
+
+
+
+  
+   
 
 
 

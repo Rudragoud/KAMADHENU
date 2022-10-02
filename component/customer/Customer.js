@@ -21,7 +21,7 @@ const Customer = () => {
       setPassword('')
      
      }else{
-    const res = await axios.get(`http://192.168.29.227:8000/custlogin/${phn}/${password}`)
+    const res = await axios.get(`http://192.168.0.113:8000/custlogin/${phn}/${password}`)
     
       if(res.data!="Fail"){
         navigation.navigate("CDashboard",{usrID:res.data[0].id})  

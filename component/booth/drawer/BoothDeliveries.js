@@ -1,145 +1,33 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
 import { useNavigation} from '@react-navigation/native'
 import { DataTable } from 'react-native-paper';
+import axios from 'axios';
 
-const BoothDeliveries = () => {
 
-  const navigation = useNavigation()
+const BoothDeliveries = ({navigation,route}) => {
 
-  const deliveredData = [
-    {
-    id: "1",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "2",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "3",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "4",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "5",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "6",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "7",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "8",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "9",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "10",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-  
-    {
-    id: "11",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "12",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "13",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "14",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-    {
-    id: "15",
-    ProductName: "Earnest Green",
-    CustOrderID:"900",
-    CustomerID:"kengeri",
-    date:'25/09/22',
-    price:"900"
-    },
-  ];
+  const usrID = route.params.usrID
+  console.log(usrID)
 
+  const [deliveredData,setDeliveryData]=useState([]);
+
+
+  useEffect(()=>{
+    handleFetch()
+  },[])
+
+  const handleFetch=async()=>{
+    const res = await axios.get(`http://192.168.0.113:8000/custboothdeliverydetails/${usrID}`)
+    setDeliveryData(res.data.details)
+    
+  }
+ 
 
 
   return (
     <View>
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("BDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+    
 
       <View>
       <Text style={styles.heading}>All deliveries</Text>
@@ -157,13 +45,13 @@ const BoothDeliveries = () => {
      
      
 
-{deliveredData.map((booth)=>{
-        return  <DataTable.Row key={booth.id}>
-        <DataTable.Cell>{booth.ProductName}</DataTable.Cell>
-        <DataTable.Cell>{booth.CustomerID}</DataTable.Cell>
-        <DataTable.Cell>{booth.CustOrderID}</DataTable.Cell>
-        <DataTable.Cell>{booth.date}</DataTable.Cell>
-        <DataTable.Cell>{booth.price}</DataTable.Cell>
+{deliveredData.map((deliver)=>{
+        return  <DataTable.Row key={deliver.CO_ID}>
+        <DataTable.Cell>{deliver.P_NAME}</DataTable.Cell>
+        <DataTable.Cell>{deliver.C_ID}</DataTable.Cell>
+        <DataTable.Cell>{deliver.CO_ID}</DataTable.Cell>
+        <DataTable.Cell>{deliver.CO_DELIVERYDATE}</DataTable.Cell>
+        <DataTable.Cell>{deliver.PRICE}</DataTable.Cell>
       </DataTable.Row>
       })}
       
@@ -195,7 +83,8 @@ const styles=StyleSheet.create({
     textAlign:'center',
     fontSize:25,
     fontWeight:'bold',
-    marginBottom:20
+    marginBottom:20,
+    marginTop:80
   
   },
 

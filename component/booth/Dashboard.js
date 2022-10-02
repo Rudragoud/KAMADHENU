@@ -6,7 +6,6 @@ import React from 'react'
 const Dashboard = ({navigation,route}) => {
 const usrID = route.params
 
-  console.log(usrID)
 
   return (
     
@@ -47,10 +46,7 @@ const usrID = route.params
       <Text style={styles.caption}>Update Delivery Boy</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={()=>navigation.navigate("boothOrderHistory",usrID)} style={styles.lastChild}>
-      <Image source={require('../../assets/icons/list.png')} />
-      <Text style={styles.caption}>Order history</Text>
-    </TouchableOpacity>
+    
 
    
 
@@ -71,7 +67,7 @@ const styles=StyleSheet.create({
   heading:{
     fontSize:30,
     textAlign:'center',
-    marginTop:30
+    marginTop:80
   },
   container:{
     flex:1,

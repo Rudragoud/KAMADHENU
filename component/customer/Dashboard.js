@@ -30,10 +30,7 @@ const CDashboard = ({navigation,route=null}) => {
       
    
     
-       <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custCart",usrID)}>
-       <Image source={require('../../assets/icons/Cart.png')}  />
-       <Text style={styles.caption}>Cart</Text>
-     </TouchableOpacity>
+      
 
 
      <TouchableOpacity style={styles.Icons} onPress={()=>navigation.navigate("custProfile",usrID)}>
@@ -41,11 +38,13 @@ const CDashboard = ({navigation,route=null}) => {
        <Text style={styles.caption}>Profile</Text>
      </TouchableOpacity>
   
-    <TouchableOpacity >
-    <Button title="Logout" onPress={()=>navigation.navigate("Milk dairy")}/>
-    </TouchableOpacity>
+   
 
+   
       </View>
+      <View style={styles.btn}>
+    <Button title="Logout" onPress={()=>navigation.navigate("Milk dairy")}/>
+    </View>
     </View>
   )
 }
@@ -62,7 +61,7 @@ flexDirection:'row',
 flexWrap:'wrap',
 alignItems:'center',
 justifyContent:'center',
-marginTop:40
+
 },
 Icons:{
   margin:30
@@ -76,7 +75,10 @@ heading:{
   fontWeight:'bold',
   fontSize:30
 }
-
+,
+btn:{
+  marginBottom:250
+}
 
 })
 

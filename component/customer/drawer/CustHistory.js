@@ -11,7 +11,7 @@ const CustHistory = ({navigation,route}) => {
 
 
     async function fetchHistory(){
-      const res = await  axios.get(`http://192.168.29.227:8000/custorderhistory/${usrID}`)
+      const res = await  axios.get(`http://192.168.0.113:8000/custorderhistory/${usrID}`)
       console.log(res.data.orders)
       setOrders(res.data.orders)
 
@@ -43,11 +43,11 @@ const CustHistory = ({navigation,route}) => {
       <ScrollView horizontal={true}>
       <DataTable >
       <DataTable.Header style={styles.tableHeader} >
-      <DataTable.Title>Booth name</DataTable.Title>
-        <DataTable.Title>Product name</DataTable.Title>
-        <DataTable.Title>Price</DataTable.Title>
-        <DataTable.Title>Quantity</DataTable.Title>
-        <DataTable.Title>Delivery date</DataTable.Title>
+      <DataTable.Title style={styles.col}>Booth name</DataTable.Title>
+        <DataTable.Title style={styles.col}>Product name</DataTable.Title>
+        <DataTable.Title style={styles.col}>Price</DataTable.Title>
+        <DataTable.Title style={styles.col}>Quantity</DataTable.Title>
+        <DataTable.Title style={styles.col}>Delivery date</DataTable.Title>
       </DataTable.Header>
      
       {orders.map((order)=>{
@@ -91,6 +91,9 @@ const styles=StyleSheet.create({
       },
     pad:{
       marginRight:30
+    },
+    col:{
+      padding:20
     }
 })
 

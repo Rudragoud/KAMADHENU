@@ -5,7 +5,8 @@ import React from 'react'
 
 const DDashboard = ({navigation,route}) => {
 
-   const usrID = route.params
+   const usrID = route.params.usrID
+   
 
   return (
     <View style={styles.main}>

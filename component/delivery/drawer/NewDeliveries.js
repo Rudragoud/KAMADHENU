@@ -1,22 +1,41 @@
-import React,{useState} from 'react'
-import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
+import React,{useState,useEffect} from 'react'
+import { View, Text , Image ,Button,StyleSheet,TouchableOpacity} from 'react-native'
 import { useNavigation} from '@react-navigation/native'
 import { TextInput } from 'react-native-paper'
+import axios from 'axios'
 
-const NewDeliveries = () => {
+const NewDeliveries = ({navigation,route}) => {
 
-    const [OrderID,setOrderID]=useState('orderID : 9009')
-    const [BoothID,setBoothID]=useState('BoothID : 999')
-    const [custAddr,setCustAddr]=useState('Customer address : xyz')
-    const navigation = useNavigation()
+    const usrID = route.params
+
+    const [OrderID,setOrderID]=useState('')
+    const [BoothID,setBoothID]=useState('')
+    const [custAddr,setCustAddr]=useState('')
+   
+
+    async function handleFetch(){
+        const res = await axios.get(`http://192.168.0.113:8000/assignnewdelivery/${usrID}`)
+        setOrderID(res.data.details[0].CO_ID)
+        setBoothID(res.data.details[0].B_NAME)
+        setCustAddr(res.data.details[0].C_ADDRESS)
+    }
+
+    useEffect(()=>{
+        handleFetch()
+    },[])
 
 
-    const handleClick=()=>{
-        console.log("hello")
+    const handleClick=async()=>{
+        const res = await axios.get(`http://192.168.0.113:8000/updatedeliverystatus/${OrderID}`)
+        if(res.data=="success"){
+            alert("Delivery confirmed")
+        }else{
+            alert("Error occured")
+        }
     }
 
   return (
-    <View>
+    <View style={styles.container}>
 
    
 
@@ -30,8 +49,11 @@ const NewDeliveries = () => {
 
 
     <View style={styles.data}>
+        <Text>BOOTH ID</Text>
     <TextInput disabled value={BoothID} style={styles.input} />
+    <Text>ORDER ID</Text>
         <TextInput disabled value={OrderID}  style={styles.input} />
+        <Text>CUSTOMER ADDRESS</Text>
         <TextInput disabled value={custAddr}  style={styles.input} />
         <TouchableOpacity style={styles.btn}>
             <Button title="Confirm" onPress={handleClick} />
@@ -47,27 +69,22 @@ const NewDeliveries = () => {
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        justifyContent:'flex-start'
+        justifyContent:'flex-start',
+        alignItems:'center'
     },
     innerContainer:{
         padding:30
         
     },
-    imgHome:{
-        width:30,
-        height:30,
-  
-    },
+   
     heading:{
         textAlign:'center',
         fontWeight:'bold',
         fontSize:20,
-        margin: 50
+        marginTop:20,
+        marginBottom:20
     },
-    data:{
-       marginLeft:30,
-      
-    },
+   
     input:{
         backgroundColor:'#fff',
         borderWidth:1,
@@ -76,12 +93,11 @@ const styles=StyleSheet.create({
         height:30,
         textAlign:'center'
     },
-    containerImgMain:{
-        marginLeft:100
-    },
+  
     imgMain:{
         width:150,
-        height:150
+        height:150,
+        marginTop:100
     },
 
     btn:{

@@ -22,7 +22,7 @@ const CustProfile = ({navigation,route}) => {
 
 async function fetchCustomerDetails(){
 
-  const res = await  axios.get(`http://192.168.29.227:8000/custprofile/${usrID}`)
+  const res = await  axios.get(`http://192.168.0.113:8000/custprofile/${usrID}`)
   setCustName(res.data.custinfo.cname)
   setPhNum(res.data.custinfo.cphn)
  setAddr(res.data.custinfo.caddr)
@@ -42,7 +42,7 @@ fetchCustomerDetails()
 
 
 const handleUpdate = async () => {
-  const res =await axios.put(`http://192.168.29.227:8000/custprofileupdate/${custName}/${cPhNum}/${email}/${addr}/${pinCode}/${usrID}`)
+  const res =await axios.put(`http://192.168.0.113:8000/custprofileupdate/${custName}/${cPhNum}/${email}/${addr}/${pinCode}/${usrID}`)
   if(res.data=="done"){
     alert("Updated")
   }

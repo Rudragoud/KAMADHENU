@@ -37,7 +37,7 @@ const DeliveryF = () => {
       <Text style={styles.heading}>Delivery Login</Text>
       <Image source={require('../../assets/img/deliveryBoy.png')} style={styles.Img}/>
       <View >
-        <TextInput value={phn} style={styles.input} placeholder="Enter Username" onChangeText={setPhn} />
+        <TextInput value={phn} style={styles.input} placeholder="Enter Mobile" onChangeText={setPhn} />
         <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={setPassword} />
        <TouchableOpacity style={styles.btn} >
        <Button title="Login" onPress={()=>handleClick("DDashboard")} />

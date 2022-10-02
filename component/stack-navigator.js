@@ -30,7 +30,7 @@ import BoothDeliveries from './booth/drawer/BoothDeliveries'
 import BoothNewOrders from './booth/drawer/BoothNewOrders'
 import BoothPayments from './booth/drawer/BoothPayments'
 import BoothUpdateDeliveryBoy from './booth/drawer/BoothUpdateDeliveryBoy'
-import BoothOrderHistory from './booth/drawer/BoothOrderHistory'
+
 
 
 const Stack = createNativeStackNavigator()
@@ -275,13 +275,7 @@ options={{
       backgroundColor: 'cornflowerblue',
 }}}
 />
-<Stack.Screen name="boothOrderHistory" component={BoothOrderHistory} 
-options={{
-    title: "Booth",
-    headerStyle: {
-      backgroundColor: 'cornflowerblue',
-}}}
-/>
+
 
 
 </Stack.Group>

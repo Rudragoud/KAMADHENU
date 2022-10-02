@@ -1,11 +1,15 @@
 import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView , TextInput} from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useNavigation} from '@react-navigation/native'
 import DropDownPicker from 'react-native-dropdown-picker';
+import axios from 'axios';
 
-const BoothPayments = () => {
+const BoothPayments = ({navigation,route}) => {
 
-const navigation=useNavigation()
+
+  const usrID=route.params.usrID
+
+  
 
 const [custID,setCustID]=useState('')
 const [custName,setCustName]=useState('')
@@ -14,19 +18,34 @@ const [totalPaymment,setTotalPayment]=useState('')
 
 const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: '001', value: '001'},
-    {label: '002', value: '002'},
+  const [items, setItems] = useState([]);
+
+   async function handleChange(val){
+    setCustID(val)
+    const res = await axios.get(`http://192.168.0.113:8000/boothcustpayments/${val}`)
+    setCustName(res.data.Boothcustpay[0].C_NAME)
+    setOrderCount(res.data.Boothcustpay[0].ORDERCOUNT)
+    setTotalPayment(res.data.Boothcustpay[0].TOTAL)
+   
+  }
+
+  async function handleFetch(){
+    const res = await axios.get(`http://192.168.0.113:8000/boothcustid/${usrID}`)
     
-  ]);
+    res.data.custid.forEach((id)=>{
+      items.push({label:id.C_ID,value:id.C_ID})
+    })
+    console.log(res.data)
+  }
+
+
+    useEffect(()=>{
+      handleFetch()
+    },[])
 
   return (
     <View>
-    <View style={styles.innerContainer}>
-     <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("BDashboard")}>
-     <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-     </TouchableOpacity>
-    </View>
+   
 
 
 
@@ -56,8 +75,9 @@ const [open, setOpen] = useState(false);
       }}
 
      
+      onChangeValue={(val)=>handleChange(val)}
 
-      placeholder="Select product ID"
+      placeholder="Select Customer ID "
       dropDownContainerStyle={{
         backgroundColor: "cornflowerblue",
         borderWidth:0,
@@ -104,8 +124,8 @@ const styles=StyleSheet.create({
 heading:{
   textAlign:'center',
   fontSize:25,
-  fontWeight:'bold'
-
+  fontWeight:'bold',
+  marginTop:90
 },
 
 DropDownArea:{

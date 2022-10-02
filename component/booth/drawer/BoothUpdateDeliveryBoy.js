@@ -1,31 +1,72 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { View, TextInput, Image, Button, StyleSheet, TouchableOpacity, ScrollView,Text } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
+import DropDownPicker from 'react-native-dropdown-picker'
 
 
 
-const BoothUpdateDeliveryBoy = () => {
 
-    const navigation = useNavigation()
+const BoothUpdateDeliveryBoy = ({navigation,route}) => {
+
+    const usrID=route.params.usrID
+    console.log(usrID)
+    
     const [delID,setDelID]=useState('')
     const [delName,setDelName]=useState('')
     const [delPhNum,setDelPhNum]=useState('')
     const [delEmail,setDelEmail]=useState('')
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([])
 
 
-const handleClick=()=>{
-console.log('hello')
-}
+    const fetchDeliveryBoys=async()=>{
+        const res = await axios.get(`http://192.168.0.113:8000/deliveryboydetails/${usrID}`)
+        res.data.deliveryboydetails.forEach((person)=>{
+            items.push({label:person.DB_NAME,value:person.DB_NAME})
+        })
+    }
+
+
+    useEffect(()=>{
+        fetchDeliveryBoys()
+    },[])
+
+
+    const handleClick=async ()=>{
+
+        const res =await axios.put(`http://192.168.0.113:8000/boothdeliveryboyupdate/${delName}/${delPhNum}/${delEmail}`)
+        if(res.data=="success"){
+            console.log("Delivery boy details updated!")
+            setDelEmail("")
+            setDelID("")
+            setDelName("")
+            setDelPass("")
+            setDelPhNum("")
+        }else{
+            setDelEmail("")
+            setDelID("")
+            setDelName("")
+            setDelPass("")
+            setDelPhNum("")
+        }
+    }
+
+
+    const handleChange=async(val)=>{
+        const res = await axios.get(`http://192.168.0.113:8000/deliveryboy/${val} `)
+        console.log(res.data.details[0])
+        setDelName(res.data.details[0].DB_NAME)
+        setDelEmail(res.data.details[0].DB_EMAIL)
+        setDelPhNum(res.data.details[0].DB_PHNO.toString())
+    }
 
 
     return (
         <View>
             <View style={styles.innerContainer}>
              
-                <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("BDashboard")}>
-                    <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-                </TouchableOpacity>
-               
+              
 
             </View>
 
@@ -39,14 +80,45 @@ console.log('hello')
 
 
             <View style={styles.data}>
-            <Text style={styles.lbl}>ID</Text>
-    <TextInput  value={delID} style={styles.input} />
+          
+
+        <View style={styles.DropDownArea}>
+      <DropDownPicker
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
+      
+      style={{
+        backgroundColor:'cornflowerblue',
+        borderWidth:0,
+      }}
+
+      textStyle={{
+        color:'#fff',
+        fontSize:17,
+        fontWeight:'bold'
+      }}
+
+     onChangeValue={(val)=>handleChange(val)}
+     
+
+      placeholder="Select Delivery Boy"
+      dropDownContainerStyle={{
+        backgroundColor: "cornflowerblue",
+        borderWidth:0,
+      }}
+/>
+
+</View>
     <Text style={styles.lbl}>Name</Text>
         <TextInput  value={delName}  style={styles.input}  />
         <Text style={styles.lbl}>Phone number</Text>
-        <TextInput  value={delPhNum}  style={styles.input} />
+        <TextInput  value={delPhNum}  style={styles.input} onChangeText={(val)=>setDelPhNum(val)} />
         <Text style={styles.lbl}>Email</Text>
-        <TextInput  value={delEmail}  style={styles.input} />
+        <TextInput  value={delEmail}  style={styles.input} onChangeText={(val)=>setDelEmail(val)} />
         <TouchableOpacity style={styles.btn}>
             <Button title="Update" onPress={handleClick} />
         </TouchableOpacity>
@@ -104,6 +176,10 @@ const styles = StyleSheet.create({
         fontSize:25,
         fontWeight:'bold',
       },
+      DropDownArea:{
+        width:300,
+        marginBottom:20
+      }
 
 
 

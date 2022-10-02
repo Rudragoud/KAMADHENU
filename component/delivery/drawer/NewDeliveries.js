@@ -18,12 +18,7 @@ const NewDeliveries = () => {
   return (
     <View>
 
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("DDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
-
+   
 
 <View style={styles.containerImgMain}>
     <Image source={require('../../../assets/img/delivery_boy.png')} style={styles.imgMain}/>

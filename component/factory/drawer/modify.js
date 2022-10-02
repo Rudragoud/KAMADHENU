@@ -1,6 +1,6 @@
 import { View, Text , Image ,Button,StyleSheet,TouchableOpacity,ScrollView} from 'react-native'
 import React,{useEffect, useState} from 'react'
-
+import DropDownPicker from 'react-native-dropdown-picker';
 import { TextInput } from 'react-native-paper';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ const [open, setOpen] = useState(false);
 
 
   async function fetchBoothList(){
-    const res = await axios.get('http://192.168.29.227:8000/factoryboothname/')
+    const res = await axios.get(`http://192.168.0.113:8000/factoryboothname/${plantName}`)
     res.data.data.forEach((booth)=>{
       items.push({label:booth.B_NAME,value:booth.B_NAME})
     })
@@ -29,21 +29,49 @@ const [open, setOpen] = useState(false);
 
   useEffect(()=>{
 
-    fetchBoothList()
-
+fetchBoothList()
   },[])
 
 
 
 
 
-  const handleUpdate=()=>{
-    
-  }
+  const handleUpdate=async()=>{
+    const res = await axios.get(`http://192.168.0.113:8000/updateboothdata/${BoothName}/${phn}/${email}/${addr}/${pin}/${plantName}`)
+    if(res.data=="success"){
+      alert("Data updated")
+      setBoothName('')
+      setAddr('')
+      setEmail('')
+      setValue('')
+      setPin('')
+      setPhn('')
+    }
+    else{
+      alert("Error occured!!")
+      setBoothName('')
+      setAddr('')
+      setEmail('')
+      setValue('')
+      setPin('')
+      setPhn('')
+    }
+    }
+  
 
-  const handleDelete=()=>{
+
+  const  handleChange=async(val)=>{
+    setValue(val)
+  const res = await axios.get(`http://192.168.0.113:8000/boothmodify/${val}`)
+    setBoothName(res.data.boothdetails[0].B_NAME)
+    setAddr(res.data.boothdetails[0].B_ADDRESS)
+    setPhn(res.data.boothdetails[0].B_PHNO.toString())
+    setEmail(res.data.boothdetails[0].B_EMAIL)
+    setPin(res.data.boothdetails[0].B_PINCODE.toString())
+    console.log(res.data.boothdetails[0])
 
   }
+  
 
   return (
 
@@ -57,7 +85,34 @@ const [open, setOpen] = useState(false);
     </View>
       
     <View style={styles.DropDownArea}>
+    <DropDownPicker
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
+      
+      style={{
+        backgroundColor:'cornflowerblue',
+        borderWidth:0,
+      }}
+
+      textStyle={{
+        color:'#fff',
+        fontSize:17,
+        fontWeight:'bold'
+      }}
+
+     onChangeValue={(val)=>handleChange(val)}
      
+
+      placeholder="Select booth name"
+      dropDownContainerStyle={{
+        backgroundColor: "cornflowerblue",
+        borderWidth:0,
+      }}
+/>
       </View>
     
       <View style={styles.inputContainer}>
@@ -71,9 +126,7 @@ const [open, setOpen] = useState(false);
           
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
-          <Button title="Delete" onPress={handleDelete} style={styles.btnButton} />
-        </TouchableOpacity>
+       
       </View>
 
 

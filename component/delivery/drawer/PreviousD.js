@@ -135,11 +135,7 @@ const PreviousD = () => {
 
   return (
     <View>
-      <View style={styles.innerContainer}>
-       <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("DDashboard")}>
-       <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-       </TouchableOpacity>
-      </View>
+      
 
       <View>
         <Text style={styles.heading}> Delivered Data</Text>

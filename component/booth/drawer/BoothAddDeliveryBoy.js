@@ -1,29 +1,44 @@
 import { View , Image , TextInput , Button, StyleSheet  ,Text, TouchableOpacity} from 'react-native'
 import React,{useState} from 'react'
-import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
-const BoothAddDeliveryBoy = () => {
+const BoothAddDeliveryBoy = ({navigation,route}) => {
 
-  const navigation = useNavigation()
+const usrID= route.params
+
   const [delID,setDelID]=useState('')
   const [delName,setDelName]=useState('')
   const [delPhNum,setDelPhNum]=useState('')
   const [delEmail,setDelEmail]=useState('')
+const [delPass,setDelPass]=useState('');
+
 
 
   
-const handleClick=()=>{
-  console.log('hello')
-  }
+const handleClick=async ()=>{
+    const newDelPass=delName.substring(0,4)+delPhNum.substring(0,4)
+    setDelPass(newDelPass)
+    const res =await axios.get(`http://192.168.0.113:8000/boothdeliveryboy/${delID}/${delName}/${delPhNum}/${delEmail}/${delPass}`)
+    if(res.data=="success"){
+        console.log("Delivery boy details saved!")
+        setDelEmail("")
+        setDelID("")
+        setDelName("")
+        setDelPass("")
+        setDelPhNum("")
+    }else{
+        setDelEmail("")
+        setDelID("")
+        setDelName("")
+        setDelPass("")
+        setDelPhNum("")
+    }
+}
 
 
   return (
     <View>
-            <View style={styles.innerContainer}>
-                <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("BDashboard")}>
-                    <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-                </TouchableOpacity>
-            </View>
+            
 
         <View>
             <Text style={styles.heading}>Add Delivery Boy</Text>
@@ -55,10 +70,7 @@ const styles = StyleSheet.create({
       backgroundColor:'red',
       
   },
-  innerContainer: {
-      padding: 30
-
-  },
+ 
   imgHome: {
       width: 30,
       height: 30,
@@ -93,7 +105,8 @@ const styles = StyleSheet.create({
     textAlign:'center',
     fontSize:25,
     fontWeight:'bold',
-    marginBottom:20
+    marginBottom:20,
+    marginTop:80
   
   },
 

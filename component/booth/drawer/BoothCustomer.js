@@ -1,11 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
-const BoothCustomer = () => {
 
-  const handleUpdate = () => {
-    console.log("saved")
+const BoothCustomer = ({navigation,route}) => {
+
+  const usrID = route.params
+
+  const handleSave =  async () => {
+    const res = await axios.get(`http://192.168.0.113:8000/boothcustomeradd/${custName}/${cPhNum}/${email}/${addr}/${pinCode}`)
+    if(res.data=="success"){
+      alert("Customer data saved!!")
+      setCustName("")
+      setPhNum("")
+      setEmail("")
+      setAddr("")
+      setPinCode("")
+    }
+    else{
+    alert("Error occured!!")
+    setCustName("")
+    setPhNum("")
+    setEmail("")
+    setAddr("")
+    setPinCode("")
+    }
   }
 
   const [custName, setCustName] = useState('')
@@ -14,16 +33,12 @@ const BoothCustomer = () => {
   const [addr, setAddr] = useState('')
   const [pinCode, setPinCode] = useState('')
 
-  const navigation = useNavigation()
+  
   return (
     <View style={styles.container}>
 
 
-      <View style={styles.innerContainer}>
-        <TouchableOpacity style={styles.imgContainer} onPress={() => navigation.navigate("BDashboard")}>
-          <Image style={styles.imgHome} source={require('../../../assets/icons/home.png')} />
-        </TouchableOpacity>
-      </View>
+      
 
       <View >
         <Text style={styles.heading}> Add a customer</Text>
@@ -40,7 +55,7 @@ const BoothCustomer = () => {
         <TextInput placeholder='Address' value={addr} onChangeText={setAddr} style={styles.input} />
         <TextInput placeholder='Pin code' value={pinCode} onChangeText={setPinCode} style={styles.input} />
         <TouchableOpacity>
-          <Button title="Save" onPress={handleUpdate} />
+          <Button title="Save" onPress={handleSave} />
         </TouchableOpacity>
 
       </View>

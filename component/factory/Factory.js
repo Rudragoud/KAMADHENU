@@ -21,7 +21,7 @@ const Factory = () => {
     
     }else{
    
-      const res = await axios.get(`http://192.168.29.227:8000/factlogin/${plantName}/${password}`)
+      const res = await axios.get(`http://192.168.0.113:8000/factlogin/${plantName}/${password}`)
      if(res.data!="Fail"){
        navigation.navigate("FDashboard",plantName)  
        setplantName('')

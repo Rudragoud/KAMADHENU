@@ -1,26 +1,43 @@
 import { View, Text,StyleSheet,Image,Button,TextInput,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const DeliveryF = () => {
 
   const navigation=useNavigation()
 
-  const [username,setuserName]=useState('');
+  const [phn,setPhn]=useState('');
   const [password,setPassword]=useState('');
 
 
-  function handleClick(val){
-    navigation.navigate(val)
-    console.log(username,password)
-  }
+  async function handleClick(){
 
+
+    if(phn=="" || password==""){
+     alert("Please enter both phone and password")
+     setPhn('')
+     setPassword('')
+    
+    }else{
+   const res = await axios.get(`http://192.168.0.113:8000/deliverylogin/${phn}/${password}`)
+   
+     if(res.data!="Fail"){
+       navigation.navigate("DDashboard",{usrID:res.data[0].id})  
+       setPhn('')
+       setPassword('')
+     }else{
+       alert("Invalid credentials!")
+     }
+     
+    }
+  }
   return (
     <View>
       <Text style={styles.heading}>Delivery Login</Text>
       <Image source={require('../../assets/img/deliveryBoy.png')} style={styles.Img}/>
       <View >
-        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={setuserName} />
+        <TextInput value={phn} style={styles.input} placeholder="Enter Username" onChangeText={setPhn} />
         <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={setPassword} />
        <TouchableOpacity style={styles.btn} >
        <Button title="Login" onPress={()=>handleClick("DDashboard")} />

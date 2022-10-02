@@ -70,7 +70,7 @@ const [open, setOpen] = useState(false);
 
      
 
-      placeholder="Select product ID"
+      placeholder="Select Order ID"
       dropDownContainerStyle={{
         backgroundColor: "cornflowerblue",
         borderWidth:0,

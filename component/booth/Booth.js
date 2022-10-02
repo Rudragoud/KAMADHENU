@@ -1,26 +1,47 @@
 import { View, Text,StyleSheet,Image,Button,TextInput,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const Booth = () => {
 
   const navigation=useNavigation()
 
-  const [username,setuserName]=useState('');
+  const [boothName,setBoothName]=useState('');
   const [password,setPassword]=useState('');
 
 
-  function handleClick(val){
-    navigation.navigate(val)
-    console.log(val)
-  }
+  async function handleClick(){
+
+
+    if(boothName=="" || password==""){
+     alert("Please enter both username and password")
+     setBoothName('')
+     setPassword('')
+    
+    }else{
+   const res = await axios.get(`http://192.168.0.113:8000/boothlogin/${boothName}/${password}`)
+   
+     if(res.data!="Fail"){
+       navigation.navigate("BDashboard",{usrID:res.data[0].id})  
+       setBoothName('')
+       setPassword('')
+     }else{
+       alert("Invalid credentials!")
+     }
+     
+    }
+
+    
+ }
+
 
   return (
     <View>
       <Text style={styles.heading}>Booth Login</Text>
       <Image source={require('../../assets/img/shop.png')} style={styles.Img}/>
       <View >
-        <TextInput value={username} style={styles.input} placeholder="Enter Username" onChangeText={e=>setuserName(e)} />
+        <TextInput value={boothName} style={styles.input} placeholder="Enter Booth Name" onChangeText={e=>setBoothName(e)} />
         <TextInput value={password}  style={styles.input} placeholder="Enter Password" onChangeText={e=>setPassword(e)} />
        <TouchableOpacity style={styles.btn} >
        <Button title="Login" onPress={()=>handleClick("BDashboard")} />

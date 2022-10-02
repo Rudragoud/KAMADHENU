@@ -1,11 +1,11 @@
 import { View, Text ,Image,TouchableOpacity,StyleSheet} from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
 
 
-const DDashboard = () => {
 
-    const navigation = useNavigation()
+const DDashboard = ({navigation,route}) => {
+
+   const usrID = route.params
 
   return (
     <View style={styles.main}>
@@ -13,17 +13,17 @@ const DDashboard = () => {
       <View style={styles.container}>
    
 
-    <TouchableOpacity onPress={()=>navigation.navigate("deliveryD")}>
+    <TouchableOpacity onPress={()=>navigation.navigate("deliveryD",usrID)}>
       <Image style={styles.img} source={require('../../assets/icons/delivery.png')} />
       <Text style={styles.caption}>New Deliveries</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={()=>navigation.navigate("ordersD")}>
+    <TouchableOpacity onPress={()=>navigation.navigate("ordersD",usrID)}>
       <Image style={styles.img} source={require('../../assets/icons/orders.png')} />
       <Text style={styles.caption}>Previous Deliveries</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={()=>navigation.navigate("userD")}>
+    <TouchableOpacity onPress={()=>navigation.navigate("userD",usrID)}>
       <Image source={require('../../assets/icons/user.png')} style={styles.img} />
       <Text style={styles.caption}>User details</Text>
     </TouchableOpacity>
